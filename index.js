@@ -9,7 +9,7 @@ const app = express();
 // Create a route handler
 app.get('/', (req, res) => {
   // '/': watch for requests trying to access '/'
-  res.send({ hi: 'there' });
+  res.send({ bye: 'buddy' });
   // Tell the express that we want to immediately
   //close the request and send back response containing the JSON data
 });
