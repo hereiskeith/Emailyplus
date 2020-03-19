@@ -2,35 +2,30 @@ const express = require('express');
 // node.js runtime only has support for commonJS module on the server side
 // commonJS implemented in node.js for requiring and sharing code between different files
 // node.js doesn't have support for ES2015 module
-
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('./config/keys');
+require('./models/User');
+require('./services/passport');
+
+
+mongoose.connect(keys.mongoURI);
+
 
 const app = express();
 // Define a new application that represents a running express app
 
-// console.developers.google.com
-passport.use(new GoogleStrategy(
-  {
-  clientID: keys.googleClientID,
-  clientSecret: keys.googleClientSecret,
-  callbackURL: '/auth/google/callback'
-  },
-  (accessToken, refreshToken, profile, done) => {
-    console.log(accessToken, refreshToken, profile);
-  }
-  )
-);
+app.use(cookieSession({
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  keys: [keys.cookieKey]
+}));
 
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-  scope: ['profile', 'email']
-  })
-);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/auth/google/callback', passport.authenticate('google'));
+require('./routes/authRoutes')(app);
+
 
 
 // Whenever Heroku runs on app, it has the ability to
@@ -50,10 +45,3 @@ app.listen(PORT);
 
 
 
-// Create a route handler
-// app.get('/', (req, res) => {
-//   // '/': watch for requests trying to access '/'
-//   res.send({ bye: 'buddy' });
-//   // Tell the express that we want to immediately
-//   //close the request and send back response containing the JSON data
-// });
