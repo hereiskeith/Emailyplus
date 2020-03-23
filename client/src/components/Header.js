@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 const Header = props => {
 
@@ -12,7 +13,11 @@ const Header = props => {
         return <li><a href="auth/google">Sign in with Google</a></li>
       default:
         // We can go with AJAX to let browser to make a faster logout
-        return <li><a href="api/logout">Logout</a></li>
+        return [
+          <li key='payments'><Payments /></li>,
+          <li key='credits' style={{ margin: '0 8px' }}>Credits: {props.auth.credit}</li>,
+          <li key='logout'><a href="api/logout">Logout</a></li>
+        ]
     }
   }
 
