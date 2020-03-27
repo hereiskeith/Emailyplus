@@ -7,6 +7,10 @@ import reduxThunk from 'redux-thunk';
 import reducer from './reducers';
 import App from './components/App';
 
+// Dev purpose only
+// import axios from 'axios';
+// window.axios = axios;
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducer, {}, composeEnhancers(applyMiddleware(reduxThunk)));
