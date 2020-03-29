@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/';
 import Header from './Header';
 import Landing from './Landing';
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>SurveyNew</h2>;
+import Dashboard from "./Dashboard";
+import SurveyNew from "./survey/SurveyNew";
 
 const App = (props) => {
   const { fetchUser } = props;
@@ -16,7 +16,7 @@ const App = (props) => {
   return (
     <div>
       <BrowserRouter>
-        <div>
+        <div className='container'>
           <Header />
           <Route path='/' exact component={Landing} />
           <Route path='/survey' exact component={Dashboard} />
